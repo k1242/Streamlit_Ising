@@ -1,14 +1,8 @@
 import torch
 import torch.nn.functional as F
-
 import numpy as np
-
-import matplotlib.pyplot as plt
-from matplotlib import cm
 import time
-
 import streamlit as st
-plt.rcParams["font.family"] = "serif"
 
 # Initializing the device
 device = torch.device("cpu")

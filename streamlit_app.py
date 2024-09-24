@@ -7,11 +7,6 @@ import streamlit as st
 # Initializing the device
 device = torch.device("cpu")
 
-# Convolutional filter for 2D Ising with J=1.0
-kernel = torch.tensor([[0.0, 1.0, 0.0],
-                       [1.0, 0.0, 1.0],
-                       [0.0, 1.0, 0.0]], device=device).reshape(1, 1, 3, 3)
-
 # Function for performing the Metropolis step on one sublattice
 def metropolis_sublattice_step(system, T, mask):
     # Calculating the sum of neighbors via convolution
@@ -78,10 +73,15 @@ def ising_evol(T, L, n_steps=100, batch_size=100, system_IC="empty"):
 # 2D Ising crytical temperature
 Tc = 2 / np.log(1 + np.sqrt(2))
 
-
-
+st.header("2D Ising model")
 
 st.button("Reset")
+
+st.caption("Interaction kernel")
+# Convolutional filter for 2D Ising with J=1.0
+kernel_base = [[0.0, 1.0, 0.0],[1.0, 0.0, 1.0],[0.0, 1.0, 0.0]]
+kernel_input = st.data_editor(kernel_base, hide_index=True)
+kernel = torch.tensor(kernel_input, device=device).reshape(1, 1, 3, 3)
 
 n_steps = st.slider('Steps', min_value=1, max_value=40, value=20, step=1)
 T       = st.slider('Temperature', min_value=0.1, max_value=4.0, value=Tc, step=0.1)
